@@ -25,6 +25,7 @@ const Login = () => {
 				className="hidden sm:block brightness-[.3] object-cover w-[100vw] h-[100vh]"
 			/>
 
+			{/* Loading spinner */}
 			{isLoading && (
 				<div class="absolute top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2 bg-black bg-opacity-70 rounded flex justify-center items-center">
 					<div class="p-8 shadow-md relative">
@@ -95,6 +96,7 @@ const Login = () => {
 				</div>
 			)}
 
+			{/* Signin/Signup form */}
 			<form
 				className={`absolute w-full sm:w-[400px] ${
 					isLoading
