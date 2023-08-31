@@ -1,18 +1,30 @@
+import {
+	createUserWithEmailAndPassword,
+	signInWithEmailAndPassword,
+} from "firebase/auth";
 import { useRef, useState } from "react";
 import Header from "./Header";
-import CONSTANTS from "../utils/constants";
 import { checkValidFormData } from "../utils/validate";
+import { auth } from "../utils/firebase";
+import { mapFirebaseErrorCodeToMessage } from "../utils/mapFirebaseErrorCodeToMessage";
+import CONSTANTS from "../utils/constants";
 
 const Login = () => {
 	const [isSignIn, setIsSignIn] = useState(true);
 	const [isLoading, setIsLoading] = useState(false);
-	const [errorMessage, setErrorMessage] = useState({});
+	const [errorMessageFirebase, setErrorMessageFirebase] = useState(null);
+	const [errorMessageForm, setErrorMessageForm] = useState({
+		name: null,
+		email: null,
+		password: null,
+	});
 
 	const email = useRef(null);
 	const password = useRef(null);
 	const name = useRef(null);
 
 	const handleSignInToggle = () => {
+		setErrorMessageFirebase(null);
 		setIsLoading(true);
 		setTimeout(() => {
 			setIsSignIn(!isSignIn);
@@ -22,17 +34,64 @@ const Login = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		setErrorMessageFirebase(null);
 		setIsLoading(true);
-		setTimeout(() => {
-			setIsLoading(false);
-		}, 300);
 
 		const message = checkValidFormData(
-			name?.current?.value,
+			!isSignIn ? name?.current?.value : undefined,
 			email?.current?.value,
 			password?.current.value
 		);
-		setErrorMessage(message);
+		setErrorMessageForm(message);
+
+		// Don't try to sign in/up if there are any errors
+		if (message.email || message.password || message.name) {
+			setIsLoading(false);
+			return;
+		}
+
+		// firebase auth
+		if (!isSignIn) {
+			// Sign up logic
+			createUserWithEmailAndPassword(
+				auth,
+				email?.current?.value,
+				password?.current.value
+			)
+				.then((userCredential) => {
+					const user = userCredential.user;
+					console.log(user);
+				})
+				.catch((error) => {
+					name.current.value = "";
+					email.current.value = "";
+					password.current.value = "";
+
+					const errorCode = error.code;
+					const errorMessage = mapFirebaseErrorCodeToMessage(errorCode);
+					setErrorMessageFirebase(errorMessage);
+				})
+				.finally(() => setIsLoading(false));
+		} else {
+			// Sign in logic
+			signInWithEmailAndPassword(
+				auth,
+				email?.current?.value,
+				password?.current.value
+			)
+				.then((userCredential) => {
+					const user = userCredential.user;
+					console.log(user);
+				})
+				.catch((error) => {
+					password.current.value = "";
+
+					const errorCode = error.code;
+					const errorMessage = mapFirebaseErrorCodeToMessage(errorCode);
+					setErrorMessageFirebase(errorMessage);
+				})
+				.finally(() => setIsLoading(false));
+		}
 	};
 
 	return (
@@ -129,6 +188,15 @@ const Login = () => {
 				<h1 className="text-3xl font-bold mb-8">
 					{isSignIn ? "Sign In" : "Sign Up"}
 				</h1>
+
+				{/* Error message from firebase */}
+				{errorMessageFirebase && (
+					<p className="leading-5 bg-orange-400 p-2 rounded -mt-3 mb-4">
+						{errorMessageFirebase}
+					</p>
+				)}
+
+				{/* conditionally render name input box */}
 				{!isSignIn && (
 					<>
 						<input
@@ -137,9 +205,9 @@ const Login = () => {
 							placeholder="Full Name"
 							className="mb-4 p-3 rounded bg-gray-700 w-full"
 						/>
-						{errorMessage.name && (
+						{errorMessageForm.name && (
 							<p className="text-red-500 opacity-70 -mt-3 mb-3">
-								{errorMessage.name}
+								{errorMessageForm.name}
 							</p>
 						)}
 					</>
@@ -150,9 +218,9 @@ const Login = () => {
 					placeholder="Email ID"
 					className="mb-4 p-3 rounded bg-gray-700 w-full"
 				/>
-				{errorMessage.email && (
+				{errorMessageForm.email && (
 					<p className="text-red-500 opacity-70 -mt-3 mb-3">
-						{errorMessage.email}
+						{errorMessageForm.email}
 					</p>
 				)}
 				<input
@@ -161,9 +229,9 @@ const Login = () => {
 					placeholder="Password"
 					className="mb-8 p-3 rounded bg-gray-700 w-full"
 				/>
-				{errorMessage.password && (
+				{errorMessageForm.password && (
 					<p className="text-red-500 opacity-70 -mt-7 mb-3">
-						{errorMessage.password}
+						{errorMessageForm.password}
 					</p>
 				)}
 				<button type="submit" className="bg-red-700 py-3 rounded mb-6">
