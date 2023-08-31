@@ -8,8 +8,10 @@ import { checkValidFormData } from "../utils/validate";
 import { auth } from "../utils/firebase";
 import { mapFirebaseErrorCodeToMessage } from "../utils/mapFirebaseErrorCodeToMessage";
 import CONSTANTS from "../utils/constants";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+	const navigate = useNavigate();
 	const [isSignIn, setIsSignIn] = useState(true);
 	const [isLoading, setIsLoading] = useState(false);
 	const [errorMessageFirebase, setErrorMessageFirebase] = useState(null);
@@ -58,9 +60,8 @@ const Login = () => {
 				email?.current?.value,
 				password?.current.value
 			)
-				.then((userCredential) => {
-					const user = userCredential.user;
-					console.log(user);
+				.then(() => {
+					navigate("/browse");
 				})
 				.catch((error) => {
 					name.current.value = "";
@@ -79,9 +80,8 @@ const Login = () => {
 				email?.current?.value,
 				password?.current.value
 			)
-				.then((userCredential) => {
-					const user = userCredential.user;
-					console.log(user);
+				.then(() => {
+					navigate("/browse");
 				})
 				.catch((error) => {
 					password.current.value = "";
