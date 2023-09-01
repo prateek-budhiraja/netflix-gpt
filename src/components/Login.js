@@ -1,6 +1,7 @@
 import {
 	createUserWithEmailAndPassword,
 	signInWithEmailAndPassword,
+	updateProfile,
 } from "firebase/auth";
 import { useRef, useState } from "react";
 import Header from "./Header";
@@ -26,6 +27,9 @@ const Login = () => {
 	const name = useRef(null);
 
 	const handleSignInToggle = () => {
+		email.current.value = "";
+		password.current.value = "";
+
 		setErrorMessageFirebase(null);
 		setIsLoading(true);
 		setTimeout(() => {
@@ -61,7 +65,18 @@ const Login = () => {
 				password?.current.value
 			)
 				.then(() => {
-					navigate("/browse");
+					updateProfile(auth.currentUser, {
+						displayName: name.current.value,
+					})
+						.then(() => {
+							setIsSignIn(true);
+						})
+						.catch((error) => {
+							const errorCode = error.code;
+							const errorMessage = mapFirebaseErrorCodeToMessage(errorCode);
+							setErrorMessageFirebase(errorMessage);
+						})
+						.finally(() => setIsLoading(false));
 				})
 				.catch((error) => {
 					name.current.value = "";
