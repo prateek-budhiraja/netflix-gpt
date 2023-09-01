@@ -10,9 +10,12 @@ import { auth } from "../utils/firebase";
 import { mapFirebaseErrorCodeToMessage } from "../utils/mapFirebaseErrorCodeToMessage";
 import CONSTANTS from "../utils/constants";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../utils/states/userSlice";
 
 const Login = () => {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const [isSignIn, setIsSignIn] = useState(true);
 	const [isLoading, setIsLoading] = useState(false);
 	const [errorMessageFirebase, setErrorMessageFirebase] = useState(null);
@@ -38,15 +41,15 @@ const Login = () => {
 		}, 300);
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setErrorMessageFirebase(null);
 		setIsLoading(true);
 
 		const message = checkValidFormData(
-			!isSignIn ? name?.current?.value : undefined,
-			email?.current?.value,
-			password?.current.value
+			!isSignIn ? name.current.value : undefined,
+			email.current.value,
+			password.current.value
 		);
 		setErrorMessageForm(message);
 
@@ -61,15 +64,16 @@ const Login = () => {
 			// Sign up logic
 			createUserWithEmailAndPassword(
 				auth,
-				email?.current?.value,
-				password?.current.value
+				email.current.value,
+				password.current.value
 			)
 				.then(() => {
 					updateProfile(auth.currentUser, {
 						displayName: name.current.value,
 					})
 						.then(() => {
-							setIsSignIn(true);
+							const { uid, email, displayName } = auth.currentUser;
+							dispatch(loginUser({ uid, email, displayName }));
 						})
 						.catch((error) => {
 							const errorCode = error.code;
@@ -95,9 +99,7 @@ const Login = () => {
 				email?.current?.value,
 				password?.current.value
 			)
-				.then(() => {
-					navigate("/browse");
-				})
+				.then()
 				.catch((error) => {
 					password.current.value = "";
 
