@@ -5,7 +5,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import Browse from "./Browse";
 import Login from "./Login";
 import { auth } from "../utils/firebase";
-import { loginUser } from "../utils/states/userSlice";
+import { loginUser, logoutUser } from "../utils/states/userSlice";
 
 const Body = () => {
 	const dispatch = useDispatch();
@@ -23,10 +23,12 @@ const Body = () => {
 	useEffect(() => {
 		onAuthStateChanged(auth, (user) => {
 			if (user) {
+				console.log("logging in");
 				const { uid, email, displayName } = user;
 				dispatch(loginUser({ uid, email, displayName }));
 			} else {
-				dispatch(loginUser());
+				console.log("logging out");
+				dispatch(logoutUser());
 			}
 		});
 	}, []);
