@@ -13,7 +13,7 @@ const Header = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 	useEffect(() => {
-		onAuthStateChanged(auth, (user) => {
+		const unsubscribe = onAuthStateChanged(auth, (user) => {
 			if (user) {
 				const { uid, email, displayName } = user;
 				dispatch(loginUser({ uid, email, displayName }));
@@ -23,6 +23,8 @@ const Header = () => {
 				navigate("/");
 			}
 		});
+
+		return () => unsubscribe();
 	}, []);
 
 	const handleSignout = () => {
