@@ -9,15 +9,14 @@ import { checkValidFormData } from "../utils/validate";
 import { auth } from "../utils/firebase";
 import { mapFirebaseErrorCodeToMessage } from "../utils/mapFirebaseErrorCodeToMessage";
 import CONSTANTS from "../utils/constants";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../utils/states/userSlice";
+import useLoading from "../hooks/useLoader";
 
 const Login = () => {
-	const navigate = useNavigate();
 	const dispatch = useDispatch();
+	const { loading, showLoading, hideLoading } = useLoading();
 	const [isSignIn, setIsSignIn] = useState(true);
-	const [isLoading, setIsLoading] = useState(false);
 	const [errorMessageFirebase, setErrorMessageFirebase] = useState(null);
 	const [errorMessageForm, setErrorMessageForm] = useState({
 		name: null,
@@ -34,17 +33,17 @@ const Login = () => {
 		password.current.value = "";
 
 		setErrorMessageFirebase(null);
-		setIsLoading(true);
+		showLoading();
 		setTimeout(() => {
 			setIsSignIn(!isSignIn);
-			setIsLoading(false);
+			hideLoading();
 		}, 300);
 	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setErrorMessageFirebase(null);
-		setIsLoading(true);
+		showLoading();
 
 		const message = checkValidFormData(
 			!isSignIn ? name.current.value : undefined,
@@ -55,7 +54,7 @@ const Login = () => {
 
 		// Don't try to sign in/up if there are any errors
 		if (message.email || message.password || message.name) {
-			setIsLoading(false);
+			hideLoading();
 			return;
 		}
 
@@ -80,7 +79,7 @@ const Login = () => {
 							const errorMessage = mapFirebaseErrorCodeToMessage(errorCode);
 							setErrorMessageFirebase(errorMessage);
 						})
-						.finally(() => setIsLoading(false));
+						.finally(() => hideLoading());
 				})
 				.catch((error) => {
 					name.current.value = "";
@@ -91,7 +90,7 @@ const Login = () => {
 					const errorMessage = mapFirebaseErrorCodeToMessage(errorCode);
 					setErrorMessageFirebase(errorMessage);
 				})
-				.finally(() => setIsLoading(false));
+				.finally(() => hideLoading());
 		} else {
 			// Sign in logic
 			signInWithEmailAndPassword(
@@ -107,7 +106,7 @@ const Login = () => {
 					const errorMessage = mapFirebaseErrorCodeToMessage(errorCode);
 					setErrorMessageFirebase(errorMessage);
 				})
-				.finally(() => setIsLoading(false));
+				.finally(() => hideLoading());
 		}
 	};
 
@@ -123,7 +122,7 @@ const Login = () => {
 			/>
 
 			{/* Loading spinner */}
-			{isLoading && (
+			{loading && (
 				<div className="absolute top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2 bg-black bg-opacity-70 rounded flex justify-center items-center">
 					<div className="p-8 shadow-md relative">
 						<svg
@@ -197,7 +196,7 @@ const Login = () => {
 			<form
 				onSubmit={handleSubmit}
 				className={`absolute w-full sm:w-[400px] ${
-					isLoading
+					loading
 						? "opacity-0"
 						: "opacity-100 transition-opacity duration-300 ease-in-out"
 				} top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2 bg-black rounded bg-opacity-70 flex flex-col p-10 text-white`}
