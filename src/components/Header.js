@@ -1,21 +1,33 @@
-import { useSelector } from "react-redux";
-import CONSTANTS from "../utils/constants";
-import { signOut } from "firebase/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { auth } from "../utils/firebase";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { loginUser, logoutUser } from "../utils/states/userSlice";
+import CONSTANTS from "../utils/constants";
 
 const Header = () => {
-	const location = useLocation();
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 	const user = useSelector((state) => state.user);
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+	useEffect(() => {
+		onAuthStateChanged(auth, (user) => {
+			if (user) {
+				const { uid, email, displayName } = user;
+				dispatch(loginUser({ uid, email, displayName }));
+				navigate("/browse");
+			} else {
+				dispatch(logoutUser());
+				navigate("/");
+			}
+		});
+	}, []);
+
 	const handleSignout = () => {
 		signOut(auth)
-			.then(() => {
-				navigate("/");
-			})
+			.then()
 			.catch((error) => {
 				console.log(error);
 			});
@@ -28,7 +40,7 @@ const Header = () => {
 				alt="netflix logo"
 				className="w-24 sm:w-40"
 			/>
-			{user && location.pathname !== "/" && (
+			{user && (
 				<div>
 					<img
 						onClick={() => setIsMenuOpen(!isMenuOpen)}
