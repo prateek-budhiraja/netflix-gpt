@@ -24,6 +24,8 @@ const CONSTANTS = {
 			Authorization: `Bearer ${process.env.REACT_APP_TMDB_API_KEY}`,
 		},
 	},
+
+	TMDB_BASE_URL: "https://api.themoviedb.org/3/movie/",
 };
 
 export default CONSTANTS;
