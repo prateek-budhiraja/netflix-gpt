@@ -4,12 +4,6 @@ import useFetchTrailer from "../hooks/useFetchTrailer";
 const VideoBG = ({ movie }) => {
 	const id = useFetchTrailer(movie?.id);
 
-	const toggleMute = () => {
-		const muteBtn =
-			window.document.getElementsByClassName("ytp-mute-button")[0];
-		console.log(muteBtn);
-	};
-
 	useEffect(() => {
 		window.addEventListener("DOMContentLoaded", (event) => {
 			document.querySelector(".ytp-chrome-top").style.display = "none";
