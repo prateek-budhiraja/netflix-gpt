@@ -1,5 +1,5 @@
 import Header from "./Header";
-import MovieSlice, { setNowPlaying } from "../utils/states/movieSlice";
+import { setNowPlaying } from "../utils/states/movieSlice";
 import useFetchMovies from "../hooks/useFetchMovies";
 import CONSTANTS from "../utils/constants";
 import HeroSection from "./HeroSection";
