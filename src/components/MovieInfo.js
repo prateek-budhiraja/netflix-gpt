@@ -1,16 +1,20 @@
+import { Play, Info } from "react-feather";
+
 const MovieInfo = ({ title, overview }) => {
 	return (
 		<>
-			<div className="w-full aspect-video bg-black opacity-50 absolute top-0" />
-			<div className="text-white absolute top-[50%] -translate-y-[50%] left-12">
-				<h1 className="text-6xl font-bold">{title}</h1>
-				<p className="my-4 leading-5 w-[480px]">{overview}</p>
-				<button className="bg-gray-100 text-lg font-medium text-black px-6 py-1.5 rounded-full hover:opacity-90 inline-block mr-4">
-					▶ Play
-				</button>
-				<button className="bg-white text-lg font-medium text-black px-6 py-1.5 rounded-full bg-opacity-50">
-					ℹ️ More Info
-				</button>
+			<div className="w-full aspect-video bg-black opacity-80 md:opacity-50 absolute top-0" />
+			<div className="text-white absolute lg:top-1/2 top-20 sm:top-36 md:top-64 md:-translate-y-1/2  md:left-12 left-1/2 md:-translate-x-0 -translate-x-1/2 not-md:-translate-x-1/2 text-center md:text-left">
+				<h1 className="text-2xl lg:text-6xl font-bold">{title}</h1>
+				<p className="my-4 leading-5 w-[480px] hidden md:block">{overview}</p>
+				<div className="flex gap-2 mt-4 lg:mt-0">
+					<button className="flex items-center gap-1 bg-gray-100 text-xs lg:text-lg font-medium text-black px-4 lg:px-6 py-1 lg:py-1.5 rounded hover:opacity-90">
+						<Play /> Play
+					</button>
+					<button className="flex items-center gap-1 bg-white text-xs lg:text-lg font-medium text-black px-4 lg:px-6 py-1 lg:py-1.5 rounded bg-opacity-50">
+						<Info /> More Info
+					</button>
+				</div>
 			</div>
 		</>
 	);
