@@ -9,9 +9,6 @@ const HeroSection = () => {
 
 	const randomMovie = nowPlaying[Math.floor(Math.random() * nowPlaying.length)];
 
-	console.log(nowPlaying);
-	console.log(randomMovie);
-
 	const { title, overview } = randomMovie;
 
 	return (
