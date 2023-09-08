@@ -8,7 +8,7 @@ const useFetchTrailer = (id) => {
 		if (!id) return;
 
 		fetch(
-			`${CONSTANTS.TMDB_BASE_URL}${id}/videos?language=en-US`,
+			`${CONSTANTS.TMDB_MOVIE_BASE_URL}${id}/videos?language=en-US`,
 			CONSTANTS.API_OPTIONS
 		)
 			.then((response) => response.json())

@@ -1,14 +1,7 @@
-import React, { useEffect } from "react";
 import useFetchTrailer from "../hooks/useFetchTrailer";
 
 const VideoBG = ({ movie }) => {
 	const id = useFetchTrailer(movie?.id);
-
-	useEffect(() => {
-		window.addEventListener("DOMContentLoaded", (event) => {
-			document.querySelector(".ytp-chrome-top").style.display = "none";
-		});
-	}, []);
 
 	return (
 		<div className="max-w-screen">

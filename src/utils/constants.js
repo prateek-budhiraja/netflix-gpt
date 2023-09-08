@@ -25,7 +25,9 @@ const CONSTANTS = {
 		},
 	},
 
-	TMDB_BASE_URL: "https://api.themoviedb.org/3/movie/",
+	TMDB_MOVIE_BASE_URL: "https://api.themoviedb.org/3/movie/",
+	TMDB_TV_BASE_URL: "https://api.themoviedb.org/3/tv/",
+	TMDB_IMAGE_BASE_URL: "https://image.tmdb.org/t/p/w500",
 };
 
 export default CONSTANTS;
