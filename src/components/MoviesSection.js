@@ -1,15 +1,15 @@
-import React from "react";
+import { useSelector } from "react-redux";
+import MovieRow from "./MovieRow";
 
-const MoviesSection = ({ movie }) => {
-	console.log(movie);
+const MoviesSection = () => {
+	const movies = useSelector((state) => state.movie);
 
 	return (
-		<>
-			<div className="w-full aspect-video bg-black opacity-50 absolute top-0" />
-			<div>
-				<h1>{movie?.title}</h1>
-			</div>
-		</>
+		<div className="-mt-44 z-50 relative">
+			<MovieRow title="Now Playing Movies" movies={movies.nowPlaying} />
+			<MovieRow title="Top Rated Movies" movies={movies.topRated} />
+			<MovieRow title="Popular Movies" movies={movies.popular} />
+		</div>
 	);
 };
 
