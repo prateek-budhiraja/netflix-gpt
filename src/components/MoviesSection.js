@@ -6,7 +6,7 @@ const MoviesSection = () => {
 	const tvSeries = useSelector((state) => state.tv);
 
 	return (
-		<div className="-mt-44 z-50 relative">
+		<div className="lg:-mt-44 md:-mt-8 z-50 relative">
 			<ContentRow title="Now Playing Movies" list={movies.nowPlaying} />
 			<ContentRow title="Top Rated Movies" list={movies.topRated} />
 			<ContentRow title="Popular Movies" list={movies.popular} />
