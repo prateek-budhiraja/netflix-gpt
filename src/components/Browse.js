@@ -1,4 +1,8 @@
+import { useSelector } from "react-redux";
 import Header from "./Header";
+import HeroSection from "./HeroSection";
+import MoviesSection from "./MoviesSection";
+import GPT from "./GPT";
 import {
 	setNowPlaying as setMovieNowPlaying,
 	setPopular as setMoviePopular,
@@ -11,10 +15,10 @@ import {
 
 import useFetchTmdbList from "../hooks/useFetchTmdbList";
 import CONSTANTS from "../utils/constants";
-import HeroSection from "./HeroSection";
-import MoviesSection from "./MoviesSection";
 
 const Browse = () => {
+	const gptView = useSelector((state) => state.gpt.view);
+
 	// fetching movies
 	useFetchTmdbList(
 		CONSTANTS.TMDB_MOVIE_BASE_URL + "/now_playing?page=1",
@@ -42,8 +46,14 @@ const Browse = () => {
 	return (
 		<div>
 			<Header />
-			<HeroSection />
-			<MoviesSection />
+			{gptView ? (
+				<GPT />
+			) : (
+				<>
+					<HeroSection />
+					<MoviesSection />
+				</>
+			)}
 		</div>
 	);
 };
