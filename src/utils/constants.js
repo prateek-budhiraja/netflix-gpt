@@ -25,9 +25,13 @@ const CONSTANTS = {
 		},
 	},
 
+	// tmdb constants
 	TMDB_MOVIE_BASE_URL: "https://api.themoviedb.org/3/movie/",
 	TMDB_TV_BASE_URL: "https://api.themoviedb.org/3/tv/",
 	TMDB_IMAGE_BASE_URL: "https://image.tmdb.org/t/p/w500",
+
+	// openai
+	OPENAI_API_KEY: process.env.REACT_APP_OPEN_API_KEY,
 };
 
 export default CONSTANTS;
