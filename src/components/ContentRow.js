@@ -1,6 +1,8 @@
 import CONSTANTS from "../utils/constants";
 
 const ContentRow = ({ title, list }) => {
+	if (!list.length) return null;
+
 	const first = list[0];
 	list = list.slice(1);
 	return (
@@ -11,8 +13,12 @@ const ContentRow = ({ title, list }) => {
 			<div className="flex md:gap-4 gap-2 overflow-x-scroll">
 				<div className="md:pl-8 pl-4">
 					<img
-						className="md:min-w-[250px] min-w-[200px] rounded-lg"
-						src={CONSTANTS.TMDB_IMAGE_BASE_URL + first?.backdrop_path}
+						className="md:min-w-[250px] min-w-[200px] rounded-lg max-h-[140px] object-cover"
+						src={
+							first?.backdrop_path
+								? CONSTANTS.TMDB_IMAGE_BASE_URL + first?.backdrop_path
+								: CONSTANTS.DEFAULT_POSTER
+						}
 						alt={first?.title || first?.name}
 					/>
 					<h4 className="text-white mt-1 font-medium">
@@ -22,8 +28,12 @@ const ContentRow = ({ title, list }) => {
 				{list.map((content) => (
 					<div key={content.id}>
 						<img
-							className="md:min-w-[250px] min-w-[200px] rounded-lg"
-							src={CONSTANTS.TMDB_IMAGE_BASE_URL + content?.backdrop_path}
+							className="md:min-w-[250px] min-w-[200px] rounded-lg max-h-[140px] object-cover"
+							src={
+								content?.backdrop_path
+									? CONSTANTS.TMDB_IMAGE_BASE_URL + content?.backdrop_path
+									: CONSTANTS.DEFAULT_POSTER
+							}
 							alt={content?.title || content?.name}
 						/>
 						<h4 className="text-white mt-1 font-medium">
