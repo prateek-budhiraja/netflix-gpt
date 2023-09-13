@@ -21,7 +21,7 @@ const ContentRow = ({ title, list }) => {
 						}
 						alt={first?.title || first?.name}
 					/>
-					<h4 className="text-white mt-1 font-medium">
+					<h4 data-testid="movie-title" className="text-white mt-1 font-medium">
 						{first?.title || first?.name}
 					</h4>
 				</div>
@@ -36,7 +36,10 @@ const ContentRow = ({ title, list }) => {
 							}
 							alt={content?.title || content?.name}
 						/>
-						<h4 className="text-white mt-1 font-medium">
+						<h4
+							data-testid="movie-title"
+							className="text-white mt-1 font-medium"
+						>
 							{content?.title || content?.name}
 						</h4>
 					</div>
