@@ -72,7 +72,7 @@ const Login = () => {
 					})
 						.then(() => {
 							const { uid, email, displayName } = auth.currentUser;
-							dispatch(loginUser({ uid, email, displayName }));
+							dispatch(loginUser({ uid, email, displayName, credit: 5 }));
 						})
 						.catch((error) => {
 							const errorCode = error.code;

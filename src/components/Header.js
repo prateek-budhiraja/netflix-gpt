@@ -23,7 +23,7 @@ const Header = () => {
 		const unsubscribe = onAuthStateChanged(auth, (user) => {
 			if (user) {
 				const { uid, email, displayName } = user;
-				dispatch(loginUser({ uid, email, displayName }));
+				dispatch(loginUser({ uid, email, displayName, credit: 5 }));
 				navigate("/browse");
 			} else {
 				dispatch(logoutUser());

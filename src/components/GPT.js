@@ -5,10 +5,12 @@ import { setGPTMovies } from "../utils/states/gptSlice";
 import useLoading from "../hooks/useLoader";
 import openai from "../utils/openaiConstants";
 import CONSTANTS from "../utils/constants";
+import { reduceCredit } from "../utils/states/userSlice";
 
 const GPT = () => {
 	const dispatch = useDispatch();
 	const gptMovies = useSelector((state) => state.gpt.gptMovies);
+	const credit = useSelector((state) => state.user.credit);
 	const [error, setError] = useState(null);
 	const inputRef = useRef(null);
 	const { loading, hideLoading, showLoading } = useLoading();
@@ -25,6 +27,13 @@ const GPT = () => {
 			return;
 		}
 
+		if (credit <= 0) {
+			setError("You have no credits left!");
+			hideLoading();
+			return;
+		}
+
+		dispatch(reduceCredit());
 		getResponseFromGPT(query);
 	};
 
@@ -47,7 +56,7 @@ const GPT = () => {
 			messages: [
 				{
 					role: "user",
-					content: `Generate 5 comma seperated movies for the given prompt, if you can't say null. Prompt: ${query}.`,
+					content: `Generate 6 comma seperated movies for the given prompt, if you can't say null. Prompt: ${query}.`,
 				},
 			],
 			model: "gpt-3.5-turbo",
@@ -64,7 +73,8 @@ const GPT = () => {
 
 		const tmdbResults = await Promise.all(promiseArray);
 		if (tmdbResults) hideLoading();
-		dispatch(setGPTMovies(tmdbResults));
+		else setError("No movies found!");
+		dispatch(setGPTMovies(tmdbResults.filter((movie) => movie)));
 	};
 
 	return (
@@ -79,20 +89,25 @@ const GPT = () => {
 					<p className="text-red-700 font-medium">{error}</p>
 				</div>
 			)}
-			<form
-				className="bg-white absolute top-52 left-1/2 -translate-x-1/2 flex rounded-lg"
-				onSubmit={handleSubmit}
-			>
-				<input
-					ref={inputRef}
-					className="w-96 px-6 py-3 rounded-lg outline-none"
-					type="text"
-					placeholder="What do you want to watch?"
-				/>
-				<button className="rounded-lg bg-red-700 text-white font-medium px-4">
-					Search
-				</button>
-			</form>
+			<div className="absolute top-52 left-1/2 -translate-x-1/2">
+				<h2 className="text-white text-center bg-black bg-opacity-70 p-2 mb-4 text-xl font-medium">
+					CREDITS LEFT: {credit}
+				</h2>
+				<form
+					className="flex gap-2 flex-col md:flex-row rounded-lg"
+					onSubmit={handleSubmit}
+				>
+					<input
+						ref={inputRef}
+						className="w-96 px-6 py-3 rounded-lg outline-none"
+						type="text"
+						placeholder="What do you want to watch?"
+					/>
+					<button className="rounded-lg py-3 bg-red-700 text-white font-medium px-4">
+						Search
+					</button>
+				</form>
+			</div>
 			{loading && (
 				<div className="absolute top-[50%] left-[50%] -translate-y-1/2 -translate-x-1/2 bg-black bg-opacity-70 rounded flex justify-center items-center">
 					<div className="p-8 shadow-md relative">

@@ -10,8 +10,11 @@ const userSlice = createSlice({
 		logoutUser: (_state) => {
 			return null;
 		},
+		reduceCredit: (state) => {
+			return { ...state, credit: state.credit - 1 };
+		},
 	},
 });
 
-export const { loginUser, logoutUser } = userSlice.actions;
+export const { loginUser, logoutUser, reduceCredit } = userSlice.actions;
 export default userSlice.reducer;
