@@ -99,7 +99,7 @@ const GPT = () => {
 				>
 					<input
 						ref={inputRef}
-						className="w-96 px-6 py-3 rounded-lg outline-none"
+						className="w-[350px] px-6 py-3 rounded-lg outline-none"
 						type="text"
 						placeholder="What do you want to watch?"
 					/>
