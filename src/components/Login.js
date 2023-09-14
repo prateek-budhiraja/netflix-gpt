@@ -111,14 +111,14 @@ const Login = () => {
 	};
 
 	return (
-		<div>
+		<div className="bg-black">
 			<Header />
 
 			{/* bg image */}
 			<img
 				src={CONSTANTS.LOGIN_SCREEN_BG}
 				alt="login bg screen"
-				className="hidden sm:block brightness-[.3] object-cover w-[100vw] h-[100vh]"
+				className="block brightness-[.3] object-cover w-[100vw] h-[100vh]"
 			/>
 
 			{/* Loading spinner */}
