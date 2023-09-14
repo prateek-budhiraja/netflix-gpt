@@ -1,70 +1,73 @@
-# Getting Started with Create React App
+# Netflix Clone with GPT Search Feature
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[🌐 View Site](https://netflixgpt-pb.vercel.app/)
 
-## Available Scripts
+This is a Netflix clone project with a GPT search feature that allows users to provide prompts, and the application will return a list of movies based on the input prompt.
 
-In the project directory, you can run:
+## Table of Contents
 
-### `npm start`
+- [Installation](#installation)
+- [Usage](#usage)
+- [Technologies Used](#technologies-used)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Installation
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. Clone this repository to your local machine using:
 
-### `npm test`
+```bash
+git clone https://github.com/prateek-budhiraja/netflix-gpt.git
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2. Change directory to the project folder:
 
-### `npm run build`
+```bash
+cd netflix-gpt
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. Install the required dependencies:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+npm install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+4. Start the development server:
 
-### `npm run eject`
+Rename the `.env.example` file to `.env` and add your keys for TMDB, OpenAI and Firebase.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+````bash
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+5. Start the development server:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+npm start
+````
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+5. Open your web browser and navigate to [http://localhost:3000](http://localhost:3000) to use the Netflix clone with GPT search feature.
 
-## Learn More
+## Usage
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. When you navigate to [http://localhost:3000](http://localhost:3000), the application will open the login page.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+2. If you are not logged in, you can sign up for an account.
 
-### Code Splitting
+3. After logging in or signing up, you will be redirected to the `/browse` page, where you'll find a collection of movies similar to Netflix.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+4. On the top of the `/browse` page, there is a GPT search button.
 
-### Analyzing the Bundle Size
+5. Click the GPT search button to access the input box, where you can enter your search prompt.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+6. Enter your search prompt and press the search button or hit Enter to initiate the GPT search.
 
-### Making a Progressive Web App
+7. The application will return a list of movies related to your search prompt.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+8. Click on any movie to view more details or watch it if available.
 
-### Advanced Configuration
+## Technologies Used
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- React
+- GPT-3.5 for search functionality
+- Firebase for authentication
+- TMDB API for movie data
+- Tailwind for styling
+- React Router for routing
+- React Context API for state management
