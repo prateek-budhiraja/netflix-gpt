@@ -51,7 +51,7 @@ const Header = () => {
 	};
 
 	return (
-		<div className="absolute top-0 left-0 right-0 z-10 p-4 flex justify-between items-center bg-gradient-to-b from-black">
+		<div className="fixed backdrop-blur-md top-0 left-0 right-0 z-50 px-4 py-2 flex justify-between items-center bg-gradient-to-b from-black">
 			<img
 				src={CONSTANTS.SPELL_LOGO_BG_RED}
 				alt="netflix logo"
