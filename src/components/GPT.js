@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import ContentRow from "./ContentRow";
 import { setGPTMovies } from "../utils/states/gptSlice";
 import useLoading from "../hooks/useLoader";
-import openai from "../utils/openaiConstants";
+// import openai from "../utils/openaiConstants";
 import CONSTANTS from "../utils/constants";
 import { reduceCredit } from "../utils/states/userSlice";
+import model from "../utils/genAI";
 
 const GPT = () => {
 	const dispatch = useDispatch();
@@ -52,29 +53,30 @@ const GPT = () => {
 	};
 
 	const getResponseFromGPT = async (query) => {
-		const completion = await openai.chat.completions.create({
-			messages: [
-				{
-					role: "user",
-					content: `Generate 6 comma seperated movies for the given prompt, if you can't say null. Prompt: ${query}.`,
-				},
-			],
-			model: "gpt-3.5-turbo",
-		});
-		const movieResult = completion?.choices[0]?.message?.content?.split(", ");
+		try {
+			const output = await model.generateContent([
+				`Generate 6 comma seperated movies for the given prompt, if you can't say null. Prompt: ${query}.`,
+			]);
 
-		if (!movieResult) {
+			console.log(output);
+			const movieResult = output?.response.text()?.split(", ");
+
+			if (!movieResult || movieResult[0] === "null \n") {
+				setError("No movies found!");
+				hideLoading();
+				return;
+			}
+
+			const promiseArray = movieResult.map((movie) => searchMovieTMDB(movie));
+
+			const tmdbResults = await Promise.all(promiseArray);
+			if (tmdbResults) hideLoading();
+			else setError("No movies found!");
+			dispatch(setGPTMovies(tmdbResults.filter((movie) => movie)));
+		} catch (error) {
 			setError("No movies found!");
 			hideLoading();
-			return;
 		}
-
-		const promiseArray = movieResult.map((movie) => searchMovieTMDB(movie));
-
-		const tmdbResults = await Promise.all(promiseArray);
-		if (tmdbResults) hideLoading();
-		else setError("No movies found!");
-		dispatch(setGPTMovies(tmdbResults.filter((movie) => movie)));
 	};
 
 	return (

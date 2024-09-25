@@ -33,8 +33,7 @@ const CONSTANTS = {
 	TMDB_IMAGE_BASE_URL: "https://image.tmdb.org/t/p/w500",
 	TMDB_MOVIE_SEARCH_URL: "https://api.themoviedb.org/3/search/movie",
 
-	// openai
-	OPENAI_API_KEY: process.env.REACT_APP_OPEN_API_KEY,
+	GEN_API_KEY: process.env.REACT_APP_GEN_API_KEY,
 };
 
 export default CONSTANTS;
